@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "blaze-scraper"
+version = "0.1.0"
+description = ""
+authors = ["Vitor Daniel <vitor036daniel@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+httpx = "^0.23.3"
+parsel = "^1.7.0"
+python-telegram-bot = "^20.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
