@@ -178,15 +178,15 @@ async def main():
                                 listner,
                                 f"""🔮Estamos sentido a presença do branco🔮
 
-{new_line.join(parte_1)}
+{new_line.join(map(str, parte_1))}
 
 Minutos de recuperação 
-{new_line.join(parte_2)}
+{new_line.join(map(str, parte_2))}
 
 Boa sorte 🤑""")
                             sequence["messages_ids"].append({ listner: message.message_id })
                 else:
-                    if minute > max(sequence["minutes"]) + 1:
+                    if item_minute > max(sequence["minutes"]) + 1:
                         for listner in listners_path.read_text().strip().split("\n"):
                             listner = int(listner.strip())
                             message_id = sequence["messages_ids"][listner]
