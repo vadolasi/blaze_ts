@@ -53,6 +53,7 @@ async def main():
 
             if item_number == 0:
                 item_minute = int(item.css(".minute-table::text").get().split(":")[1])
+                last_white_distance = 1
 
                 if soma_esquerdo_1 is None:
                     continue
@@ -72,9 +73,6 @@ async def main():
                     await app.updater.bot.send_message("Paga blaze")
                 else:
                     await app.updater.bot.send_message("❌❌❌❌❌❌")
-
-                last_white_distance = 1
-                continue
             elif last_white_distance == 1:
                 last_white_distance = 2
             elif last_white_distance == 2:
