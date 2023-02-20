@@ -170,7 +170,7 @@ Minutos de recuperação
 {new_line.join(map(str, parte_2)) if len(parte_2) > 0 else "Sem opções"}
 
 Boa sorte 🤑""")
-                            sequence["messages_ids"].append({ listner: message.message_id })
+                            sequence["messages_ids"][listner] = message.message_id
                 elif len(sequence["minutes"]) > 0:
                     if item_minute > max(sequence["minutes"]) + 1:
                         for listner in listners_path.read_text().strip().split("\n"):
@@ -183,7 +183,7 @@ Boa sorte 🤑""")
             if item_number == 0:
                 sequences.append({
                     "minutes": [],
-                    "messages_ids": [],
+                    "messages_ids": {},
                     "white_distance": 0
                 })
 
