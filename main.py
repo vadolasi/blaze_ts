@@ -19,10 +19,8 @@ class Sequence(TypedDict):
     messages_ids: dict[int, int]
 
 
-sequences: list[Sequence] = []
-
-
 async def main():
+    sequences: list[Sequence] = []
     last_id = None
 
     soma_esquerdo_1: Union[int, None] = None
