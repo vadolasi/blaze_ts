@@ -1,6 +1,6 @@
 import time
 import pathlib
-from typing import Union
+from typing import Union, TypedDict
 import asyncio
 
 import httpx
@@ -12,12 +12,18 @@ listners_path = pathlib.Path("./listners.txt")
 
 running = False
 
-last_limit: Union[int, None] = None
+
+class Sequence(TypedDict):
+    white_distance: int
+    minutes: tuple[int]
+    messages_ids: dict[int, int]
+
+
+sequences: list[Sequence] = []
 
 
 async def main():
     last_id = None
-    last_white_distance = 0
 
     soma_esquerdo_1: Union[int, None] = None
     soma_direito_1: Union[int, None] = None
@@ -52,140 +58,125 @@ async def main():
             last_id = item_id
 
             item_number = int(item.css(".number-table::text").get())
+            item_minute = int(item.css(".minute-table::text").get().split(":")[1])
 
-            if item_number == 0:
-                item_minute = int(item.css(".minute-table::text").get().split(":")[1])
-                last_white_distance = 1
+            for sequence in sequences:
+                for minute in sequence["minutes"]:
+                    if item_minute >= minute - 1 and item_minute <= minute + 1:
+                        for listner in listners_path.read_text().strip().split("\n"):
+                            listner = int(listner.strip())
+                            message_id = sequence["messages_ids"][listner]
+                            await app.updater.bot.send_message(listner, f"Pagaaaa blazeee 🤑🤑🤑🤑🤑🤑🤑🤯🤯\n\n{item.css('.minute-table::text').get()}", reply_to_message_id=message_id)
 
-                if soma_esquerdo_1 is None:
-                    continue
+                        sequences.remove(sequence)
 
-                if item_minute >= soma_esquerdo_1 - 1 and item_minute <= soma_esquerdo_1 + 1 or item_minute >= soma_direito_1 - 1 \
-                    and item_minute <= soma_direito_1 + 1 or item_minute >= soma_2_lados_1 - 1 \
-                    and item_minute <= soma_2_lados_1 + 1 or item_minute >= soma_2_esquerdo_1 - 1 \
-                    and item_minute <= soma_2_esquerdo_1 + 1 or item_minute >= soma_2_direito_1 - 1 \
-                    and item_minute <= soma_2_direito_1 + 1 or item_minute >= soma_esquerdo_2 - 1 \
-                    and item_minute <= soma_esquerdo_2 + 1 or item_minute >= soma_direito_2 - 1 \
-                    and item_minute <= soma_direito_2 + 1 or item_minute >= soma_2_lados_2 - 1 \
-                    and item_minute <= soma_2_lados_2 + 1 or item_minute >= soma_2_esquerdo_2 - 1 \
-                    and item_minute <= soma_2_esquerdo_2 + 1 or item_minute >= soma_2_direito_2 - 1 \
-                    and item_minute <= soma_2_direito_2 + 1 \
-                :
-                    for listner in listners_path.read_text().strip().split("\n"):
-                        listner = int(listner.strip())
-                        await app.updater.bot.send_message(listner, f"Pagaaaa blazeee 🤑🤑🤑🤑🤑🤑🤑🤯🤯\n\n{item.css('.minute-table::text').get()}")
-                    last_limit = None
-                elif item_minute > last_limit + 1:
-                    for listner in listners_path.read_text().strip().split("\n"):
-                        listner = int(listner.strip())
-                        await app.updater.bot.send_message(listner, "Loss ❌❌❌❌❌❌")
-                    last_limit = None
-            elif last_white_distance == 1:
-                last_white_distance = 2
-            elif last_white_distance == 2:
-                last_white_distance = 0
+                if sequence["white_distance"] < 2:
+                    sequence["white_distance"] += 1
 
-                items = selector.css(".double-single")
+                    if sequence["white_distance"] == 2:
+                        items = selector.css(".double-single")
 
-                item1_number = int(items[0].css(".number-table::text").get())
-                item2_number = int(items[1].css(".number-table::text").get())
-                item3_minutes = int(items[2].css(".minute-table::text").get().split(":")[1])
-                item4_number = int(items[3].css(".number-table::text").get())
-                item5_number = int(items[4].css(".number-table::text").get())
+                        item1_number = int(items[0].css(".number-table::text").get())
+                        item2_number = int(items[1].css(".number-table::text").get())
+                        item3_minutes = int(items[2].css(".minute-table::text").get().split(":")[1])
+                        item4_number = int(items[3].css(".number-table::text").get())
+                        item5_number = int(items[4].css(".number-table::text").get())
 
-                soma_esquerdo_2 = item2_number + item3_minutes
+                        soma_esquerdo_2 = item2_number + item3_minutes
 
-                if soma_esquerdo_2 >= 60:
-                    soma_esquerdo_2 = soma_esquerdo_2 - 60
+                        if soma_esquerdo_2 >= 60:
+                            soma_esquerdo_2 = soma_esquerdo_2 - 60
 
-                soma_direito_2 = item3_minutes + item4_number
+                        soma_direito_2 = item3_minutes + item4_number
 
-                if soma_direito_2 >= 60:
-                    soma_direito_2 = soma_direito_2 - 60
+                        if soma_direito_2 >= 60:
+                            soma_direito_2 = soma_direito_2 - 60
 
-                soma_2_lados_2 = item2_number + item3_minutes + item4_number
+                        soma_2_lados_2 = item2_number + item3_minutes + item4_number
 
-                if soma_2_lados_2 >= 60:
-                    soma_2_lados_2 = soma_2_lados_2 - 60
+                        if soma_2_lados_2 >= 60:
+                            soma_2_lados_2 = soma_2_lados_2 - 60
 
-                soma_2_esquerdo_2 = item1_number + item2_number + item3_minutes
+                        soma_2_esquerdo_2 = item1_number + item2_number + item3_minutes
 
-                if soma_2_esquerdo_2 >= 60:
-                    soma_2_esquerdo_2 = soma_2_esquerdo_2 - 60
+                        if soma_2_esquerdo_2 >= 60:
+                            soma_2_esquerdo_2 = soma_2_esquerdo_2 - 60
 
-                soma_2_direito_2 = item3_minutes + item4_number + item5_number
+                        soma_2_direito_2 = item3_minutes + item4_number + item5_number
 
-                if soma_2_direito_2 >= 60:
-                    soma_2_direito_2 = soma_2_direito_2 - 60
+                        if soma_2_direito_2 >= 60:
+                            soma_2_direito_2 = soma_2_direito_2 - 60
 
-                if item1_number > 10:
-                    item1_number = int(str(item1_number)[0]) + int(str(item1_number)[1])
+                        if item1_number > 10:
+                            item1_number = int(str(item1_number)[0]) + int(str(item1_number)[1])
 
-                if item2_number > 10:
-                    item2_number = int(str(item2_number)[0]) + int(str(item2_number)[1])
+                        if item2_number > 10:
+                            item2_number = int(str(item2_number)[0]) + int(str(item2_number)[1])
 
-                if item4_number > 10:
-                    item4_number = int(str(item4_number)[0]) + int(str(item4_number)[1])
-                
-                if item5_number > 10:
-                    item5_number = int(str(item5_number)[0]) + int(str(item5_number)[1])
+                        if item4_number > 10:
+                            item4_number = int(str(item4_number)[0]) + int(str(item4_number)[1])
+                        
+                        if item5_number > 10:
+                            item5_number = int(str(item5_number)[0]) + int(str(item5_number)[1])
 
-                soma_esquerdo_1 = item2_number + item3_minutes
+                        soma_esquerdo_1 = item2_number + item3_minutes
 
-                if soma_esquerdo_1 >= 60:
-                    soma_esquerdo_1 = soma_esquerdo_1 - 60
+                        if soma_esquerdo_1 >= 60:
+                            soma_esquerdo_1 = soma_esquerdo_1 - 60
 
-                soma_direito_1 = item3_minutes + item4_number
+                        soma_direito_1 = item3_minutes + item4_number
 
-                if soma_direito_1 >= 60:
-                    soma_direito_1 = soma_direito_1 - 60
+                        if soma_direito_1 >= 60:
+                            soma_direito_1 = soma_direito_1 - 60
 
-                soma_2_lados_1 = item2_number + item3_minutes + item4_number
+                        soma_2_lados_1 = item2_number + item3_minutes + item4_number
 
-                if soma_2_lados_1 >= 60:
-                    soma_2_lados_1 = soma_2_lados_1 - 60
+                        if soma_2_lados_1 >= 60:
+                            soma_2_lados_1 = soma_2_lados_1 - 60
 
-                soma_2_esquerdo_1 = item1_number + item2_number + item3_minutes
+                        soma_2_esquerdo_1 = item1_number + item2_number + item3_minutes
 
-                if soma_2_esquerdo_1 >= 60:
-                    soma_2_esquerdo_1 = soma_2_esquerdo_1 - 60
+                        if soma_2_esquerdo_1 >= 60:
+                            soma_2_esquerdo_1 = soma_2_esquerdo_1 - 60
 
-                soma_2_direito_1 = item3_minutes + item4_number + item5_number
+                        soma_2_direito_1 = item3_minutes + item4_number + item5_number
 
-                if soma_2_direito_1 >= 60:
-                    soma_2_direito_1 = soma_2_direito_1 - 60
+                        if soma_2_direito_1 >= 60:
+                            soma_2_direito_1 = soma_2_direito_1 - 60
 
-                last_limit = max(
-                    soma_esquerdo_1,
-                    soma_direito_1,
-                    soma_2_lados_1,
-                    soma_2_esquerdo_1,
-                    soma_2_direito_1,
-                    soma_esquerdo_2,
-                    soma_direito_2,
-                    soma_2_lados_2,
-                    soma_2_esquerdo_2,
-                    soma_2_direito_2
-                )
+                        last_limit = max(
+                            soma_esquerdo_1,
+                            soma_direito_1,
+                            soma_2_lados_1,
+                            soma_2_esquerdo_1,
+                            soma_2_direito_1,
+                            soma_esquerdo_2,
+                            soma_direito_2,
+                            soma_2_lados_2,
+                            soma_2_esquerdo_2,
+                            soma_2_direito_2
+                        )
 
-                parte_1 = [soma_esquerdo_1, soma_direito_1, soma_2_lados_1, soma_2_esquerdo_1, soma_2_direito_1]
-                parte_2 = [soma_esquerdo_2, soma_direito_2, soma_2_lados_2, soma_2_esquerdo_2, soma_2_direito_2]
+                        sequences.append((last_limit))
 
-                parte_1 = list(dict.fromkeys(parte_1))
-                parte_2 = list(dict.fromkeys(parte_2))
+                        parte_1 = [soma_esquerdo_1, soma_direito_1, soma_2_lados_1, soma_2_esquerdo_1, soma_2_direito_1]
+                        parte_2 = [soma_esquerdo_2, soma_direito_2, soma_2_lados_2, soma_2_esquerdo_2, soma_2_direito_2]
 
-                new_line = "\n"
+                        parte_1 = list(dict.fromkeys(parte_1))
+                        parte_2 = list(dict.fromkeys(parte_2))
 
-                for item in parte_1:
-                    if item in parte_2:
-                        parte_2.remove(item)
+                        new_line = "\n"
 
-                for listner in listners_path.read_text().strip().split("\n"):
-                    listner = int(listner.strip())
+                        for item in parte_1:
+                            if item in parte_2:
+                                parte_2.remove(item)
 
-                    await app.updater.bot.send_message(
-                        listner,
-                        f"""🔮Estamos sentido a presença do branco🔮
+                        for listner in listners_path.read_text().strip().split("\n"):
+                            listner = int(listner.strip())
+
+                            message = await app.updater.bot.send_message(
+                                listner,
+                                f"""🔮Estamos sentido a presença do branco🔮
 
 {new_line.join(parte_1)}
 
@@ -193,10 +184,27 @@ Minutos de recuperação
 {new_line.join(parte_2)}
 
 Boa sorte 🤑""")
+                            sequence["messages_ids"].append({ listner: message.message_id })
+                else:
+                    if minute > max(sequence["minutes"]) + 1:
+                        for listner in listners_path.read_text().strip().split("\n"):
+                            listner = int(listner.strip())
+                            message_id = sequence["messages_ids"][listner]
+                            await app.updater.bot.send_message(listner, "Loss ❌❌❌❌❌❌", reply_to_message_id=message_id)
+
+                        sequences.remove(sequence)
+
+            if item_number == 0:
+                sequences.append({
+                    "minutes": [],
+                    "messages_ids": [],
+                    "white_distance": 0
+                })
+
 
         except Exception as e:
             print(e)
-    
+
         await asyncio.sleep(15)
 
 
