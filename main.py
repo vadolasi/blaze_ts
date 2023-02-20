@@ -70,9 +70,9 @@ async def main():
                     and item_minute < soma_2_esquerdo_2 + 1 or item_minute > soma_2_direito_2 - 1 \
                     and item_minute < soma_2_direito_2 + 1 \
                 :
-                    await app.updater.bot.send_message("Paga blaze")
-                else:
-                    await app.updater.bot.send_message("❌❌❌❌❌❌")
+                    for listner in listners_path.read_text().strip().split("\n"):
+                        listner = int(listner.strip())
+                        await app.updater.bot.send_message(listner, "Paga blaze")
             elif last_white_distance == 1:
                 last_white_distance = 2
             elif last_white_distance == 2:
