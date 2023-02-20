@@ -60,17 +60,16 @@ async def main():
                 if soma_esquerdo_1 is None:
                     continue
 
-                if item_minute > soma_esquerdo_1 - 1 \
-                    and item_minute < soma_esquerdo_1 + 1 or item_minute > soma_direito_1 - 1 \
-                    and item_minute < soma_direito_1 + 1 or item_minute > soma_2_lados_1 - 1 \
-                    and item_minute < soma_2_lados_1 + 1 or item_minute > soma_2_esquerdo_1 - 1 \
-                    and item_minute < soma_2_esquerdo_1 + 1 or item_minute > soma_2_direito_1 - 1 \
-                    and item_minute < soma_2_direito_1 + 1 or item_minute > soma_esquerdo_2 - 1 \
-                    and item_minute < soma_esquerdo_2 + 1 or item_minute > soma_direito_2 - 1 \
-                    and item_minute < soma_direito_2 + 1 or item_minute > soma_2_lados_2 - 1 \
-                    and item_minute < soma_2_lados_2 + 1 or item_minute > soma_2_esquerdo_2 - 1 \
-                    and item_minute < soma_2_esquerdo_2 + 1 or item_minute > soma_2_direito_2 - 1 \
-                    and item_minute < soma_2_direito_2 + 1 \
+                if item_minute >= soma_esquerdo_1 - 2 and item_minute <= soma_esquerdo_1 + 2 or item_minute >= soma_direito_1 - 2 \
+                    and item_minute <= soma_direito_1 + 2 or item_minute >= soma_2_lados_1 - 2 \
+                    and item_minute <= soma_2_lados_1 + 2 or item_minute >= soma_2_esquerdo_1 - 2 \
+                    and item_minute <= soma_2_esquerdo_1 + 2 or item_minute >= soma_2_direito_1 - 2 \
+                    and item_minute <= soma_2_direito_1 + 2 or item_minute >= soma_esquerdo_2 - 2 \
+                    and item_minute <= soma_esquerdo_2 + 2 or item_minute >= soma_direito_2 - 2 \
+                    and item_minute <= soma_direito_2 + 2 or item_minute >= soma_2_lados_2 - 2 \
+                    and item_minute <= soma_2_lados_2 + 2 or item_minute >= soma_2_esquerdo_2 - 2 \
+                    and item_minute <= soma_2_esquerdo_2 + 2 or item_minute >= soma_2_direito_2 - 2 \
+                    and item_minute <= soma_2_direito_2 + 2 \
                 :
                     for listner in listners_path.read_text().strip().split("\n"):
                         listner = int(listner.strip())
@@ -96,27 +95,27 @@ async def main():
 
                 soma_esquerdo_2 = item2_number + item3_minutes
 
-                if soma_esquerdo_2 > 60:
+                if soma_esquerdo_2 >= 60:
                     soma_esquerdo_2 = soma_esquerdo_2 - 60
 
                 soma_direito_2 = item3_minutes + item4_number
 
-                if soma_direito_2 > 60:
+                if soma_direito_2 >= 60:
                     soma_direito_2 = soma_direito_2 - 60
 
                 soma_2_lados_2 = item2_number + item3_minutes + item4_number
 
-                if soma_2_lados_2 > 60:
+                if soma_2_lados_2 >= 60:
                     soma_2_lados_2 = soma_2_lados_2 - 60
 
                 soma_2_esquerdo_2 = item1_number + item2_number + item3_minutes
 
-                if soma_2_esquerdo_2 > 60:
+                if soma_2_esquerdo_2 >= 60:
                     soma_2_esquerdo_2 = soma_2_esquerdo_2 - 60
 
                 soma_2_direito_2 = item3_minutes + item4_number + item5_number
 
-                if soma_2_direito_2 > 60:
+                if soma_2_direito_2 >= 60:
                     soma_2_direito_2 = soma_2_direito_2 - 60
 
                 if item1_number > 10:
@@ -133,27 +132,27 @@ async def main():
 
                 soma_esquerdo_1 = item2_number + item3_minutes
 
-                if soma_esquerdo_1 > 60:
+                if soma_esquerdo_1 >= 60:
                     soma_esquerdo_1 = soma_esquerdo_1 - 60
 
                 soma_direito_1 = item3_minutes + item4_number
 
-                if soma_direito_1 > 60:
+                if soma_direito_1 >= 60:
                     soma_direito_1 = soma_direito_1 - 60
 
                 soma_2_lados_1 = item2_number + item3_minutes + item4_number
 
-                if soma_2_lados_1 > 60:
+                if soma_2_lados_1 >= 60:
                     soma_2_lados_1 = soma_2_lados_1 - 60
 
                 soma_2_esquerdo_1 = item1_number + item2_number + item3_minutes
 
-                if soma_2_esquerdo_1 > 60:
+                if soma_2_esquerdo_1 >= 60:
                     soma_2_esquerdo_1 = soma_2_esquerdo_1 - 60
 
                 soma_2_direito_1 = item3_minutes + item4_number + item5_number
 
-                if soma_2_direito_1 > 60:
+                if soma_2_direito_1 >= 60:
                     soma_2_direito_1 = soma_2_direito_1 - 60
 
                 last_limit = max(
