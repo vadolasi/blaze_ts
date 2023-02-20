@@ -50,7 +50,6 @@ async def main():
             last_id = item_id
 
             item_number = int(item.css(".number-table::text").get())
-            print(item_number, last_white_distance)
 
             if item_number == 0:
                 last_white_distance = 1
@@ -128,7 +127,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await update.message.reply_text(f"Você já está inscrito.")
         return
 
-    listners_path.write_text(listners_path.read_text() + f"{update.message.chat_id}\n", encoding="utf-8")
+    listners_path.write_text(listners_path.read_text() + f"\n{update.message.chat_id}", encoding="utf-8")
     listners_path.write_text(listners_path.read_text().strip())
 
     await update.message.reply_text(f"Inscrição ativada, aguarde para receber as notificações.")
