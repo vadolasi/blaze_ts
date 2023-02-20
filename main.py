@@ -2,6 +2,7 @@ import time
 import pathlib
 from typing import Union, TypedDict
 import asyncio
+import sys
 
 import httpx
 import parsel
@@ -188,7 +189,8 @@ Boa sorte 🤑""")
 
 
         except Exception as e:
-            print(e)
+            _, _, exc_tb = sys.exc_info()
+            print(e, exc_tb.tb_lineno)
 
         await asyncio.sleep(15)
 
