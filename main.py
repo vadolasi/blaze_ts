@@ -60,7 +60,6 @@ async def main():
 
             for sequence in sequences:
                 for minute in sequence["minutes"]:
-                    print(item_minute, minute)
                     if item_minute >= minute - 1 and item_minute <= minute + 1:
                         for listner in listners_path.read_text().strip().split("\n"):
                             listner = int(listner.strip())
