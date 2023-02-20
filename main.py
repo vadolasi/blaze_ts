@@ -201,7 +201,7 @@ Boa sorte 🤑""")
 
 
         except Exception as e:
-            print(e)
+            print(e.with_traceback())
 
         await asyncio.sleep(15)
 
