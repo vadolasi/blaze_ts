@@ -60,16 +60,16 @@ async def main():
                 if soma_esquerdo_1 is None:
                     continue
 
-                if item_minute >= soma_esquerdo_1 - 2 and item_minute <= soma_esquerdo_1 + 2 or item_minute >= soma_direito_1 - 2 \
-                    and item_minute <= soma_direito_1 + 2 or item_minute >= soma_2_lados_1 - 2 \
-                    and item_minute <= soma_2_lados_1 + 2 or item_minute >= soma_2_esquerdo_1 - 2 \
-                    and item_minute <= soma_2_esquerdo_1 + 2 or item_minute >= soma_2_direito_1 - 2 \
-                    and item_minute <= soma_2_direito_1 + 2 or item_minute >= soma_esquerdo_2 - 2 \
-                    and item_minute <= soma_esquerdo_2 + 2 or item_minute >= soma_direito_2 - 2 \
-                    and item_minute <= soma_direito_2 + 2 or item_minute >= soma_2_lados_2 - 2 \
-                    and item_minute <= soma_2_lados_2 + 2 or item_minute >= soma_2_esquerdo_2 - 2 \
-                    and item_minute <= soma_2_esquerdo_2 + 2 or item_minute >= soma_2_direito_2 - 2 \
-                    and item_minute <= soma_2_direito_2 + 2 \
+                if item_minute >= soma_esquerdo_1 - 1 and item_minute <= soma_esquerdo_1 + 1 or item_minute >= soma_direito_1 - 1 \
+                    and item_minute <= soma_direito_1 + 1 or item_minute >= soma_2_lados_1 - 1 \
+                    and item_minute <= soma_2_lados_1 + 1 or item_minute >= soma_2_esquerdo_1 - 1 \
+                    and item_minute <= soma_2_esquerdo_1 + 1 or item_minute >= soma_2_direito_1 - 1 \
+                    and item_minute <= soma_2_direito_1 + 1 or item_minute >= soma_esquerdo_2 - 1 \
+                    and item_minute <= soma_esquerdo_2 + 1 or item_minute >= soma_direito_2 - 1 \
+                    and item_minute <= soma_direito_2 + 1 or item_minute >= soma_2_lados_2 - 1 \
+                    and item_minute <= soma_2_lados_2 + 1 or item_minute >= soma_2_esquerdo_2 - 1 \
+                    and item_minute <= soma_2_esquerdo_2 + 1 or item_minute >= soma_2_direito_2 - 1 \
+                    and item_minute <= soma_2_direito_2 + 1 \
                 :
                     for listner in listners_path.read_text().strip().split("\n"):
                         listner = int(listner.strip())
@@ -167,7 +167,19 @@ async def main():
                     soma_2_esquerdo_2,
                     soma_2_direito_2
                 )
-            
+
+                parte_1 = [soma_esquerdo_1, soma_direito_1, soma_2_lados_1, soma_2_esquerdo_1, soma_2_direito_1]
+                parte_2 = [soma_esquerdo_2, soma_direito_2, soma_2_lados_2, soma_2_esquerdo_2, soma_2_direito_2]
+
+                parte_1 = list(dict.fromkeys(parte_1))
+                parte_2 = list(dict.fromkeys(parte_2))
+
+                new_line = "\n"
+
+                for item in parte_1:
+                    if item in parte_2:
+                        parte_2.remove(item)
+
                 for listner in listners_path.read_text().strip().split("\n"):
                     listner = int(listner.strip())
 
@@ -175,18 +187,10 @@ async def main():
                         listner,
                         f"""🔮Estamos sentido a presença do branco🔮
 
-{soma_esquerdo_1}
-{soma_direito_1}
-{soma_2_lados_1}
-{soma_2_esquerdo_1}
-{soma_2_direito_1}
+{new_line.join(parte_1)}
 
 Minutos de recuperação 
-{soma_direito_2}
-{soma_esquerdo_2}
-{soma_2_lados_2}
-{soma_2_esquerdo_2}
-{soma_2_direito_2}
+{new_line.join(parte_2)}
 
 Boa sorte 🤑""")
 
