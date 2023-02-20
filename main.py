@@ -15,7 +15,7 @@ running = False
 
 class Sequence(TypedDict):
     white_distance: int
-    minutes: tuple[int]
+    minutes: list[int]
     messages_ids: dict[int, int]
 
 
@@ -154,6 +154,8 @@ async def main():
                         for item in parte_1:
                             if item in parte_2:
                                 parte_2.remove(item)
+                        
+                        sequence["minutes"].extend([*parte_1, *parte_2])
 
                         for listner in listners_path.read_text().strip().split("\n"):
                             listner = int(listner.strip())
