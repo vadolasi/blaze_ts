@@ -142,6 +142,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         asyncio.create_task(main())
         print("Running...")
 
+        for listner in listners_path.read_text().strip().split("\n"):
+            listner = int(listner.strip())
+
+            await app.updater.bot.send_message("Bot reiniciado")
+
     listners = listners_path.read_text().strip().split("\n")
 
     if str(update.message.chat_id) in listners:
