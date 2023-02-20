@@ -73,7 +73,7 @@ async def main():
                 :
                     for listner in listners_path.read_text().strip().split("\n"):
                         listner = int(listner.strip())
-                        await app.updater.bot.send_message(listner, f"Pagaaaa blzeee 🤑🤑🤑🤑🤑🤑🤑🤯🤯\n\n{item.css('.minute-table::text').get()}")
+                        await app.updater.bot.send_message(listner, f"Pagaaaa blazeee 🤑🤑🤑🤑🤑🤑🤑🤯🤯\n\n{item.css('.minute-table::text').get()}")
                     last_limit = None
                 elif item_minute > last_limit + 1:
                     for listner in listners_path.read_text().strip().split("\n"):
