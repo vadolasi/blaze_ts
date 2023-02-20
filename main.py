@@ -54,7 +54,21 @@ async def main():
             if item_number == 0:
                 item_minute = int(item.css(".minute-table::text").get().split(":")[1])
 
-                if soma_esquerdo_1 is not None and item_minute > soma_esquerdo_1 - 1 and item_minute < soma_esquerdo_1 + 1 or item_minute > soma_direito_1 - 1 and item_minute < soma_direito_1 + 1 or item_minute > soma_2_lados_1 - 1 and item_minute < soma_2_lados_1 + 1 or item_minute > soma_2_esquerdo_1 - 1 and item_minute < soma_2_esquerdo_1 + 1 or item_minute > soma_2_direito_1 - 1 and item_minute < soma_2_direito_1 + 1 or item_minute > soma_esquerdo_2 - 1 and item_minute < soma_esquerdo_2 + 1 or item_minute > soma_direito_2 - 1 and item_minute < soma_direito_2 + 1 or item_minute > soma_2_lados_2 - 1 and item_minute < soma_2_lados_2 + 1 or item_minute > soma_2_esquerdo_2 - 1 and item_minute < soma_2_esquerdo_2 + 1 or item_minute > soma_2_direito_2 - 1 and item_minute < soma_2_direito_2 + 1:
+                if soma_esquerdo_1 is None:
+                    continue
+
+                if item_minute > soma_esquerdo_1 - 1 \
+                    and item_minute < soma_esquerdo_1 + 1 or item_minute > soma_direito_1 - 1 \
+                    and item_minute < soma_direito_1 + 1 or item_minute > soma_2_lados_1 - 1 \
+                    and item_minute < soma_2_lados_1 + 1 or item_minute > soma_2_esquerdo_1 - 1 \
+                    and item_minute < soma_2_esquerdo_1 + 1 or item_minute > soma_2_direito_1 - 1 \
+                    and item_minute < soma_2_direito_1 + 1 or item_minute > soma_esquerdo_2 - 1 \
+                    and item_minute < soma_esquerdo_2 + 1 or item_minute > soma_direito_2 - 1 \
+                    and item_minute < soma_direito_2 + 1 or item_minute > soma_2_lados_2 - 1 \
+                    and item_minute < soma_2_lados_2 + 1 or item_minute > soma_2_esquerdo_2 - 1 \
+                    and item_minute < soma_2_esquerdo_2 + 1 or item_minute > soma_2_direito_2 - 1 \
+                    and item_minute < soma_2_direito_2 + 1 \
+                :
                     await app.updater.bot.send_message("Paga blaze")
                 else:
                     await app.updater.bot.send_message("❌❌❌❌❌❌")
