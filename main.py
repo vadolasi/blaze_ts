@@ -185,7 +185,7 @@ Minutos de recuperação
 
 Boa sorte 🤑""")
                             sequence["messages_ids"].append({ listner: message.message_id })
-                else:
+                elif len(sequence["minutes"]) > 0:
                     if item_minute > max(sequence["minutes"]) + 1:
                         for listner in listners_path.read_text().strip().split("\n"):
                             listner = int(listner.strip())
