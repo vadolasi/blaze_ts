@@ -143,7 +143,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         for listner in listners_path.read_text().strip().split("\n"):
             listner = int(listner.strip())
 
-            await app.updater.bot.send_message("Bot reiniciado")
+            await app.updater.bot.send_message(listner, "Bot reiniciado")
 
     listners = listners_path.read_text().strip().split("\n")
 
