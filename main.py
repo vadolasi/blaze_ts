@@ -92,11 +92,17 @@ async def main():
                 soma_2_esquerdo_2 = item1_number + item2_number + item3_minutes
                 soma_2_direito_2 = item3_minutes + item4_number + item5_number
 
-                if item2_number > 10:
+                if item1_number >= 10:
+                    item1_number = int(str(item1_number)[0]) + int(str(item1_number)[1])
+
+                if item2_number >= 10:
                     item2_number = int(str(item2_number)[0]) + int(str(item2_number)[1])
 
-                if item4_number > 10:
+                if item4_number >= 10:
                     item4_number = int(str(item4_number)[0]) + int(str(item4_number)[1])
+                
+                if item5_number >= 10:
+                    item5_number = int(str(item5_number)[0]) + int(str(item5_number)[1])
 
                 soma_esquerdo_1 = item2_number + item3_minutes
                 soma_direito_1 = item3_minutes + item4_number
