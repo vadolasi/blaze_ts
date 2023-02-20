@@ -12,6 +12,8 @@ listners_path = pathlib.Path("./listners.txt")
 
 running = False
 
+last_limit: Union[int, None] = None
+
 
 async def main():
     last_id = None
@@ -72,7 +74,11 @@ async def main():
                 :
                     for listner in listners_path.read_text().strip().split("\n"):
                         listner = int(listner.strip())
-                        await app.updater.bot.send_message(listner, "Paga blaze")
+                        await app.updater.bot.send_message(listner, "Pagaaaa blzeee 🤑🤑🤑🤑🤑🤑🤑🤯🤯")
+                elif item_minute > last_limit + 1:
+                    for listner in listners_path.read_text().strip().split("\n"):
+                        listner = int(listner.strip())
+                        await app.updater.bot.send_message(listner, "Loss ❌❌❌❌❌❌")
             elif last_white_distance == 1:
                 last_white_distance = 2
             elif last_white_distance == 2:
@@ -87,10 +93,29 @@ async def main():
                 item5_number = int(items[4].css(".number-table::text").get())
 
                 soma_esquerdo_2 = item2_number + item3_minutes
+
+                if soma_esquerdo_2 > 60:
+                    soma_esquerdo_2 = soma_esquerdo_2 - 60
+
                 soma_direito_2 = item3_minutes + item4_number
+
+                if soma_direito_2 > 60:
+                    soma_direito_2 = soma_direito_2 - 60
+
                 soma_2_lados_2 = item2_number + item3_minutes + item4_number
+
+                if soma_2_lados_2 > 60:
+                    soma_2_lados_2 = soma_2_lados_2 - 60
+
                 soma_2_esquerdo_2 = item1_number + item2_number + item3_minutes
+
+                if soma_2_esquerdo_2 > 60:
+                    soma_2_esquerdo_2 = soma_2_esquerdo_2 - 60
+
                 soma_2_direito_2 = item3_minutes + item4_number + item5_number
+
+                if soma_2_direito_2 > 60:
+                    soma_2_direito_2 = soma_2_direito_2 - 60
 
                 if item1_number > 10:
                     item1_number = int(str(item1_number)[0]) + int(str(item1_number)[1])
@@ -105,10 +130,42 @@ async def main():
                     item5_number = int(str(item5_number)[0]) + int(str(item5_number)[1])
 
                 soma_esquerdo_1 = item2_number + item3_minutes
+
+                if soma_esquerdo_1 > 60:
+                    soma_esquerdo_1 = soma_esquerdo_1 - 60
+
                 soma_direito_1 = item3_minutes + item4_number
+
+                if soma_direito_1 > 60:
+                    soma_direito_1 = soma_direito_1 - 60
+
                 soma_2_lados_1 = item2_number + item3_minutes + item4_number
+
+                if soma_2_lados_1 > 60:
+                    soma_2_lados_1 = soma_2_lados_1 - 60
+
                 soma_2_esquerdo_1 = item1_number + item2_number + item3_minutes
+
+                if soma_2_esquerdo_1 > 60:
+                    soma_2_esquerdo_1 = soma_2_esquerdo_1 - 60
+
                 soma_2_direito_1 = item3_minutes + item4_number + item5_number
+
+                if soma_2_direito_1 > 60:
+                    soma_2_direito_1 = soma_2_direito_1 - 60
+
+                last_limit = max(
+                    soma_esquerdo_1,
+                    soma_direito_1,
+                    soma_2_lados_1,
+                    soma_2_esquerdo_1,
+                    soma_2_direito_1,
+                    soma_esquerdo_2,
+                    soma_direito_2,
+                    soma_2_lados_2,
+                    soma_2_esquerdo_2,
+                    soma_2_direito_2
+                )
             
                 for listner in listners_path.read_text().strip().split("\n"):
                     listner = int(listner.strip())
