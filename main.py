@@ -142,21 +142,6 @@ async def main():
                         if soma_2_direito_1 >= 60:
                             soma_2_direito_1 = soma_2_direito_1 - 60
 
-                        last_limit = max(
-                            soma_esquerdo_1,
-                            soma_direito_1,
-                            soma_2_lados_1,
-                            soma_2_esquerdo_1,
-                            soma_2_direito_1,
-                            soma_esquerdo_2,
-                            soma_direito_2,
-                            soma_2_lados_2,
-                            soma_2_esquerdo_2,
-                            soma_2_direito_2
-                        )
-
-                        sequences.append((last_limit))
-
                         parte_1 = [soma_esquerdo_1, soma_direito_1, soma_2_lados_1, soma_2_esquerdo_1, soma_2_direito_1]
                         parte_2 = [soma_esquerdo_2, soma_direito_2, soma_2_lados_2, soma_2_esquerdo_2, soma_2_direito_2]
 
@@ -201,7 +186,7 @@ Boa sorte 🤑""")
 
 
         except Exception as e:
-            print(e.with_traceback())
+            print(e)
 
         await asyncio.sleep(15)
 
