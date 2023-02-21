@@ -178,12 +178,13 @@ Boa sorte 🤑""")
                     "white_distance": 0
                 })
 
-                for minute in sequence["minutes"]:
-                    if item_minute >= minute - 1 and item_minute <= minute + 1:
-                        for listner in listners_path.read_text().strip().split("\n"):
-                            listner = int(listner.strip())
-                            message_id = sequence["messages_ids"][listner]
-                            await app.updater.bot.send_message(listner, f"Pagaaaa blazeee 🤑🤑🤑🤑🤑🤑🤑🤯🤯\n\n{item.css('.minute-table::text').get()}", reply_to_message_id=message_id)
+                for sequence in sequences:
+                    for minute in sequence["minutes"]:
+                        if item_minute >= minute - 1 and item_minute <= minute + 1:
+                            for listner in listners_path.read_text().strip().split("\n"):
+                                listner = int(listner.strip())
+                                message_id = sequence["messages_ids"][listner]
+                                await app.updater.bot.send_message(listner, f"Pagaaaa blazeee 🤑🤑🤑🤑🤑🤑🤑🤯🤯\n\n{item.css('.minute-table::text').get()}", reply_to_message_id=message_id)
 
                         sequences.remove(sequence)
 
