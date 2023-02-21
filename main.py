@@ -80,7 +80,12 @@ async def main():
                                 message_id = sequence["messages_ids"][listner]
                                 item = selector.css(".double-single")[0]
                                 await app.updater.bot.send_message(listner, f"Pagaaaa blazeee 🤑🤑🤑🤑🤑🤑🤑🤯🤯\n\n{item.css('.minute-table::text').get()}", reply_to_message_id=message_id)
-                                lock = False
+                                sequences.append({
+                                    "minutes": [],
+                                    "messages_ids": {},
+                                    "white_distance": 0,
+                                    "hours": []
+                                })
 
                                 if sequence in sequences:
                                     sequences.remove(sequence)
@@ -174,7 +179,7 @@ async def main():
                         for item in parte_1:
                             if item in parte_2:
                                 parte_2.remove(item)
-                        
+
                         sequence["minutes"].extend([*parte_1, *parte_2])
 
                         for minute in sequence["minutes"]:
