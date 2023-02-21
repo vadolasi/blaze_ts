@@ -17,6 +17,7 @@ class Sequence(TypedDict):
     white_distance: int
     minutes: list[int]
     messages_ids: dict[int, int]
+    hour: int
 
 
 async def main():
@@ -57,6 +58,26 @@ async def main():
 
             item_number = int(item.css(".number-table::text").get())
             item_minute = int(item.css(".minute-table::text").get().split(":")[1])
+
+            if item_number == 0:
+                sequences.append({
+                    "minutes": [],
+                    "messages_ids": {},
+                    "white_distance": 0,
+                    "hour": int(item.css(".minute-table::text").get().split(":")[0])
+                })
+
+                for sequence in sequences:
+                    for minute in sequence["minutes"]:
+                        if item_minute >= minute - 1 and item_minute <= minute + 1:
+                            for listner in listners_path.read_text().strip().split("\n"):
+                                listner = int(listner.strip())
+                                message_id = sequence["messages_ids"][listner]
+                                item = selector.css(".double-single")[0]
+                                await app.updater.bot.send_message(listner, f"Pagaaaa blazeee 🤑🤑🤑🤑🤑🤑🤑🤯🤯\n\n{item.css('.minute-table::text').get()}", reply_to_message_id=message_id)
+                                sequences.remove(sequence)
+
+                            break
 
             for sequence in sequences:
                 if sequence["white_distance"] < 2:
@@ -169,25 +190,6 @@ Boa sorte 🤑""")
                             await app.updater.bot.send_message(listner, "Loss ❌❌❌❌❌❌", reply_to_message_id=message_id)
 
                         sequences.remove(sequence)
-
-            if item_number == 0:
-                sequences.append({
-                    "minutes": [],
-                    "messages_ids": {},
-                    "white_distance": 0
-                })
-
-                for sequence in sequences:
-                    for minute in sequence["minutes"]:
-                        if item_minute >= minute - 1 and item_minute <= minute + 1:
-                            for listner in listners_path.read_text().strip().split("\n"):
-                                listner = int(listner.strip())
-                                message_id = sequence["messages_ids"][listner]
-                                item = selector.css(".double-single")[0]
-                                await app.updater.bot.send_message(listner, f"Pagaaaa blazeee 🤑🤑🤑🤑🤑🤑🤑🤯🤯\n\n{item.css('.minute-table::text').get()}", reply_to_message_id=message_id)
-                                sequences.remove(sequence)
-
-                            break
 
         except Exception as e:
             _, _, exc_tb = sys.exc_info()
