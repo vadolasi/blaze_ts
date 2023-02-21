@@ -17,12 +17,13 @@ class Sequence(TypedDict):
     white_distance: int
     minutes: list[int]
     messages_ids: dict[int, int]
-    hour: int
+    hours: list[int]
 
 
 async def main():
     sequences: list[Sequence] = []
     last_id = None
+    lock = False
 
     soma_esquerdo_1: Union[int, None] = None
     soma_direito_1: Union[int, None] = None
@@ -58,14 +59,18 @@ async def main():
 
             item_number = int(item.css(".number-table::text").get())
             item_minute = int(item.css(".minute-table::text").get().split(":")[1])
+            item_hour = int(item.css(".minute-table::text").get().split(":")[0])
 
             if item_number == 0:
-                sequences.append({
-                    "minutes": [],
-                    "messages_ids": {},
-                    "white_distance": 0,
-                    "hour": int(item.css(".minute-table::text").get().split(":")[0])
-                })
+                if not lock:
+                    sequences.append({
+                        "minutes": [],
+                        "messages_ids": {},
+                        "white_distance": 0,
+                        "hours": []
+                    })
+
+                    lock = True
 
                 for sequence in sequences:
                     for minute in sequence["minutes"]:
@@ -75,7 +80,10 @@ async def main():
                                 message_id = sequence["messages_ids"][listner]
                                 item = selector.css(".double-single")[0]
                                 await app.updater.bot.send_message(listner, f"Pagaaaa blazeee 🤑🤑🤑🤑🤑🤑🤑🤯🤯\n\n{item.css('.minute-table::text').get()}", reply_to_message_id=message_id)
-                                sequences.remove(sequence)
+                                lock = False
+
+                                if sequence in sequences:
+                                    sequences.remove(sequence)
 
                             break
 
@@ -89,6 +97,7 @@ async def main():
                         item1_number = int(items[0].css(".number-table::text").get())
                         item2_number = int(items[1].css(".number-table::text").get())
                         item3_minutes = int(items[2].css(".minute-table::text").get().split(":")[1])
+                        item3_hours = int(items[2].css(".minute-table::text").get().split(":")[0])
                         item4_number = int(items[3].css(".number-table::text").get())
                         item5_number = int(items[4].css(".number-table::text").get())
 
@@ -168,6 +177,12 @@ async def main():
                         
                         sequence["minutes"].extend([*parte_1, *parte_2])
 
+                        for minute in sequence["minutes"]:
+                            if minute <= item3_minutes:
+                                sequence["hours"].append(item3_hours)
+                            else:
+                                sequence["hours"].append(item3_hours + 1)
+
                         for listner in listners_path.read_text().strip().split("\n"):
                             listner = int(listner.strip())
 
@@ -183,11 +198,22 @@ Minutos de recuperação
 Boa sorte 🤑""")
                             sequence["messages_ids"][listner] = message.message_id
                 elif len(sequence["minutes"]) > 0:
-                    if item_minute > max(sequence["minutes"]) + 1:
+                    max_hour = max(sequence["hours"])
+                    max_minutes = []
+
+                    for c in range(len(sequence["minutes"])):
+                        minute = sequence["minutes"][c]
+                        hour = sequence["hours"][c]
+
+                        if hour == max_hour:
+                            max_minutes.append(minute)
+
+                    if item_hour == max_hour and item_minute > max(max_minutes) + 1:
                         for listner in listners_path.read_text().strip().split("\n"):
                             listner = int(listner.strip())
                             message_id = sequence["messages_ids"][listner]
                             await app.updater.bot.send_message(listner, "Loss ❌❌❌❌❌❌", reply_to_message_id=message_id)
+                            lock = False
 
                         sequences.remove(sequence)
 
