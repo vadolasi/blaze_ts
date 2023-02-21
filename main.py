@@ -66,7 +66,7 @@ async def main():
                     sequences.append({
                         "minutes": [],
                         "messages_ids": {},
-                        "white_distance": 0,
+                        "white_distance": -1,
                         "hours": []
                     })
 
@@ -83,7 +83,7 @@ async def main():
                                 sequences.append({
                                     "minutes": [],
                                     "messages_ids": {},
-                                    "white_distance": 0,
+                                    "white_distance": -1,
                                     "hours": []
                                 })
 
@@ -186,7 +186,10 @@ async def main():
                             if minute <= item3_minutes:
                                 sequence["hours"].append(item3_hours)
                             else:
-                                sequence["hours"].append(item3_hours + 1)
+                                if item3_hours == 23:
+                                    sequence["hours"].append(0)
+                                else:
+                                    sequence["hours"].append(item3_hours + 1)
 
                         for listner in listners_path.read_text().strip().split("\n"):
                             listner = int(listner.strip())
@@ -213,7 +216,7 @@ Boa sorte 🤑""")
                         if hour == max_hour:
                             max_minutes.append(minute)
 
-                    if item_hour == max_hour and item_minute > max(max_minutes) + 1:
+                    if item_hour >= max_hour and item_minute > max(max_minutes) + 1:
                         for listner in listners_path.read_text().strip().split("\n"):
                             listner = int(listner.strip())
                             message_id = sequence["messages_ids"][listner]
