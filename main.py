@@ -83,7 +83,7 @@ async def main():
 
                             if sequence in sequences:
                                 sequences.remove(sequence)
-                            
+
                             sequences.append({
                                 "minutes": [],
                                 "messages_ids": {},
@@ -187,12 +187,12 @@ async def main():
 
                         for minute in sequence["minutes"]:
                             if minute <= item3_minutes:
-                                sequence["hours"].append(item3_hours)
-                            else:
                                 if item3_hours == 23:
                                     sequence["hours"].append(0)
                                 else:
                                     sequence["hours"].append(item3_hours + 1)
+                            else:
+                                sequence["hours"].append(item3_hours)
 
                         for listner in listners_path.read_text().strip().split("\n"):
                             listner = int(listner.strip())
