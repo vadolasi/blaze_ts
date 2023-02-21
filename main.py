@@ -227,6 +227,14 @@ Boa sorte 🤑""")
                             lock = False
 
                         sequences.remove(sequence)
+                    elif item_hour > max_hour:
+                        for listner in listners_path.read_text().strip().split("\n"):
+                            listner = int(listner.strip())
+                            message_id = sequence["messages_ids"][listner]
+                            await app.updater.bot.send_message(listner, "Loss ❌❌❌❌❌❌", reply_to_message_id=message_id)
+                            lock = False
+
+                        sequences.remove(sequence)
 
         except Exception as e:
             _, _, exc_tb = sys.exc_info()
