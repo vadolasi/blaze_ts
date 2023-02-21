@@ -86,6 +86,7 @@ async def main():
                                     "white_distance": -1,
                                     "hours": []
                                 })
+                                lock = True
 
                                 if sequence in sequences:
                                     sequences.remove(sequence)
